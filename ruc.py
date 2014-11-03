@@ -66,34 +66,37 @@ def _digitDV(sw, ructb):
 
 def calculateDV(ruc):
     rs = ruc.split('-')
-    if (len(rs) == 4 and RS[1] != 'NT') or len(rs) < 3 or len(rs) > 5:
+    #if (len(rs) == 4 and RS[1] != 'NT') or len(rs) < 3 or len(rs) > 5:
+    if len(rs) < 3 or len(rs) > 5:
         return ''
 
     sw = False
 
-    # TODO: NT
+    # TODO: NT y SB
+        # Los E estan OK, 23 posiciones
     if ruc[0] == 'E':
-        ructb = '0'*(4-len(rs[1])) + '0000005' + '00' + '50' + '0'*(3-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
-
+        #ructb = '0'*(4-len(rs[1])) + '0000005' + '00' + '50' + '0'*(3-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
+        ructb = '0'*(2-len(rs[1])) + '0000005' + '00' + '50' + '0'*(3-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
+    elif rs[0][:-1] == 'N' and rs[1] == 'NT':
+        ructb = '0'*(3-len(rs[0])) + '0000005' + '0'*(1-len(rs[0][:-2])) + rs[0][1:] + rs[1][:-2] + '43' + '0'*(3-len(rs[2])) + rs[2] + '0'*(5-len(rs[3])) + rs[3]
     elif rs[1] == 'NT':
-        ructb = '0'*(4-len(rs[1])) + '0000005' + '00'*(2-len(rs[0][:-2])) + rs[0][:-2] + '43' + '0'*(3-len(rs[2])) + rs[2] + '0'*(5-len(rs[3])) + rs[3]
-
-    elif rs[0][-2:] == 'AV':
-        ructb = '0'*(4-len(rs[1])) + '0000005' + '00'*(2-len(rs[0][:-2])) + rs[0][:-2] + '15' + '0'*(3-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
-
-    elif rs[0][-2:] == 'PI':
-        ructb = '0'*(4-len(rs[1])) + '0000005' + '00'*(2-len(rs[0][:-2])) + rs[0][:-2] + '79' + '0'*(3-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
-
+        ructb = '0'*(2-len(rs[0])) + '0000000' + '0'*(2-len(rs[0])) + rs[0] + rs[1][:-2] + '43' + '0'*(3-len(rs[2])) + rs[2] + '0'*(5-len(rs[3])) + rs[3]
+    elif rs[1] == 'AV':
+        ructb = '0'*(2-len(rs[0])) + '0000005' + '0'*(2-len(rs[0])) + rs[0] + rs[0][:-2] + '15' + '0'*(3-len(rs[2])) + rs[2] + '0'*(5-len(rs[3])) + rs[3]
+    elif rs[1] == 'PI':
+        ructb = '0'*(2-len(rs[0])) + '0000005' + '0'*(2-len(rs[0])) + rs[0] + rs[1][:-2] + '79' + '0'*(3-len(rs[2])) + rs[2] + '0'*(5-len(rs[3])) + rs[3]
     elif rs[0] == 'PE':
-        ructb = '0'*(4-len(rs[1])) + '0000005' + '00' + '75' + '0'*(3-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
-
+        if len(rs[1]) > 3:
+            cutrs1 = rs[1][1:]
+            ructb = '0'*(5-len(rs[1])) + '0000005' + '0' + '74' + '0'*(4-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
+        elif len(rs[1]) <=3:
+            ructb = '0'*(3-len(rs[1])) + '0000005' + '00' + '75' + '0'*(3-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
     elif ruc[0] == 'N':
-        ructb = '0'*(4-len(rs[1])) + '0000005' + '00' + '40' + '0'*(3-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
-
-    elif 0 < len(rs[0]) <= 2:
+        ructb = '0'*(3-len(rs[1])) + '0000005' + '00' + '40' + '0'*(3-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
+#    elif 0 < len(rs[0]) <= 2:
+    elif len(rs[0]) == 1 or rs[0] == '10' or rs[0] == '11' or rs[0] == '12' or rs[0] == '13':
         ructb = '0'*(4-len(rs[1])) + '0000005' + '0'*(2-len(rs[0])) + rs[0] + '00' + '0'*(3-len(rs[1])) + rs[1] + '0'*(5-len(rs[2])) + rs[2]
-
-    else: # RUC juridico
+    else: # RUC juridico, 20 positiones, OK
         ructb = '0'*(10-len(rs[0])) + rs[0] + '0'*(4-len(rs[1])) + rs[1] + '0'*(6-len(rs[2])) + rs[2]
         #print ructb
 
