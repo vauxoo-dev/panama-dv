@@ -34,8 +34,8 @@ class FormatoRUC_2005Test(unittest.TestCase):
         self.assertEqual(ruc.calculateDV('PE-10-442'),'50')
         self.assertEqual(ruc.calculateDV('N-45-832'),'58')
         self.assertEqual(ruc.calculateDV('E-12-342'),'10')
-        self.assertEqual(ruc.calculateDV('1AV-432-658'),'96')
-        self.assertEqual(ruc.calculateDV('4PI-234-123'),'96')
+        self.assertEqual(ruc.calculateDV('1-AV-432-658'),'31')
+        self.assertEqual(ruc.calculateDV('4-PI-234-123'),'31')
 
     def test_II(self):
         "Formato para Pasaportes (Persona Natural Extranjera)"
